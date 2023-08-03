@@ -1,0 +1,34 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using ProductManagement.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using ProductManagement.Web.Pages.Authors
+@using ProductManagement.Authors;
+@using System.Globalization
+@inject IHtmlLocalizer<ProductManagementResource> L
+@model CreateModalModel
+@{
+    Layout = null;
+}
+
+<form data-ajaxForm="true" asp-page="/Authors/CreateModal" autocomplete="off">
+    <abp-modal id="AuthorCreateModal">
+        <abp-modal-header title="@L["NewAuthor"].Value"></abp-modal-header>
+
+        <abp-modal-body>
+                    
+            <abp-input asp-for="Author.FirstName"  />
+
+            <abp-input asp-for="Author.LastName"  />
+
+            <abp-input asp-for="Author.Email"  />
+
+            <abp-input asp-for="Author.Bio" text-area />
+
+                    
+                
+        </abp-modal-body>
+
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

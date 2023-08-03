@@ -1,0 +1,77 @@
+@page
+@using Microsoft.AspNetCore.Authorization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using ProductManagement.Permissions
+@using ProductManagement.Web.Pages.Books
+@using ProductManagement.Web.Menus
+@using Microsoft.AspNetCore.Mvc.Localization
+@using ProductManagement.Localization
+@inject IHtmlLocalizer<ProductManagementResource> L
+@inject IAuthorizationService Authorization
+@model IndexModel
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.Title = L["Books"].Value;
+    PageLayout.Content.MenuItemName = ProductManagementMenus.Books;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/Books/index.js" />
+}
+
+@section content_toolbar {
+    <abp-button id="ExportToExcelButton" text="@L["ExportToExcel"].Value" icon="download" size="Small" button-type="Primary" />
+    @if (await Authorization.IsGrantedAsync(ProductManagementPermissions.Books.Create))
+    {
+        <abp-button id="NewBookButton" text="@L["NewBook"].Value" icon="plus" size="Small" button-type="Primary" />
+    }
+}
+
+<abp-card>
+    <abp-card-body>
+		<abp-row class="mb-3">
+            <abp-column size-md="_12">
+                <form id="SearchForm" autocomplete="off">
+                    <div class="input-group">
+                        <input class="form-control page-search-filter-text" id="FilterText" placeholder="@L["Search"]"/>
+                        <abp-button button-type="Primary" type="submit" icon="search"/>
+                    </div>
+                </form>
+            </abp-column>
+            <abp-column size-md="_12" class="mt-3">
+                <a href="javascript:;" id="AdvancedFilterSectionToggler" class="text-decoration-none">@L["SeeAdvancedFilters"]</a>
+            </abp-column>
+        </abp-row>
+
+        <abp-row id="AdvancedFilterSection" style="display: none;">
+            <abp-column size="_3">
+                <abp-input asp-for="TitleFilter" label="@L["Title"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="PriceFilterMin" label="@L["MinPrice"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="PriceFilterMax" label="@L["MaxPrice"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="DescriptionFilter" label="@L["Description"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-select asp-for="AuthorIdFilter" label="@L["Author"].Value" />
+            </abp-column>
+        </abp-row>
+
+        <abp-table striped-rows="true" id="BooksTable">
+            <thead>
+				<tr>
+					<th>@L["Actions"]</th>
+					<th>@L["Title"]</th>
+					<th>@L["Price"]</th>
+					<th>@L["Description"]</th>
+					<th>@L["Author"]</th>
+				</tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>

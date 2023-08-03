@@ -1,0 +1,123 @@
+﻿@page
+@model ProductManagement.Web.Pages.IndexModel
+@{
+    // Set the page title
+    ViewData["Title"] = "E-commerce Book Store";
+}
+
+<h1>Welcome to our E-commerce Book Store</h1>
+
+<!-- Place the shopping cart icon with a link to the cart page in the right corner -->
+<div style="position: absolute; top: 10px; right: 10px; width: 40px; height : 50px">
+
+    <a asp-page="/Carts/Cart" asp-page-handler="Index" class="cart-link">
+
+        @if (Model.Books.Any(b => b.CartQuantity > 0))
+        {
+            <span class="cart-quantity-badge">@Model.Books.Sum(b => b.CartQuantity)</span>
+        }
+
+        <i class="fa fa-shopping-cart cart"></i>
+
+    </a>
+
+</div>
+
+
+<h2>Featured Books</h2>
+
+<div>
+    @if (Model.Books.Count == 0)
+    {
+        <p>No featured books available.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Books.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model.Books[i].Title</td>
+                            <td>@Model.Books[i].AuthorName</td>
+                            <td>@Model.Books[i].Price</td>
+                            <td>
+                                @if (Model.Books[i].CartQuantity == 0)
+                                {
+                                    <form method="post" asp-page-handler="AddToCart" asp-route-Id="@Model.Books[i].Id" asp-route-bookTitle="@Model.Books[i].Title" asp-route-authorName="@Model.Books[i].AuthorName" asp-route-price="@Model.Books[i].Price">
+                                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="cart-item">
+                                        <form method="post" asp-page-handler="RemoveFromCart" asp-route-bookId="@Model.Books[i].Id">
+                                            <button type="submit" class="btn btn-danger">Remove</button>
+                                        </form>
+                                        <div class="quantity-control">
+                                            <form method="post" asp-page-handler="UpdateQuantity" asp-route-bookId="@Model.Books[i].Id" asp-route-quantity="@Model.Books[i].CartQuantity">
+                                                <button type="submit" class="btn btn-primary quantity-button" id="quantity-decrement-@Model.Books[i].Id" name="quantity" value="@Model.Books[i].CartQuantity - 1">-</button>
+                                                <input type="number" class="cart-quantity" id="quantity-input-@Model.Books[i].Id" name="quantity" value="@Model.Books[i].CartQuantity" min="0" />
+                                                <button type="submit" class="btn btn-primary quantity-button" id="quantity-increment-@Model.Books[i].Id" name="quantity" value="@Model.Books[i].CartQuantity + 1">+</button>
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<style>
+    .cart-link {
+        position: relative;
+        
+    }
+
+    .cart-quantity-badge {
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        font-size: 0.5rem;
+        padding: 2px 5px;
+        border-radius: 50%;
+        background: grey;
+        color: white;
+        font-display: bold;
+    }
+
+    .fa-shopping-cart {
+        font-size: 24px;
+        color: blue;
+    }
+
+    .cart-quantity {
+        font-size: 16px;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        background-color: #f8f8f8;
+        width:50px;
+    }
+
+    .quantity-button {
+        color: #333;
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+
+</style>

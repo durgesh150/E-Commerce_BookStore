@@ -1,0 +1,36 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using ProductManagement.Localization
+@using ProductManagement.Web.Pages.Authors
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using ProductManagement.Authors;
+@using System.Globalization
+@inject IHtmlLocalizer<ProductManagementResource> L
+@model EditModalModel
+@{
+    Layout = null;
+}
+
+<form data-ajaxForm="true" asp-page="/Authors/EditModal" autocomplete="off">
+    <abp-modal id="AuthorEditModal">
+        <abp-modal-header title="@L["Update"].Value"></abp-modal-header>
+
+        <abp-modal-body>
+                    <abp-input asp-for="Id" />
+                    <abp-input asp-for="Author.ConcurrencyStamp" hidden="true" suppress-label="true"/>
+                    
+            <abp-input asp-for="Author.FirstName"  />
+
+            <abp-input asp-for="Author.LastName"  />
+
+            <abp-input asp-for="Author.Email"  />
+
+            <abp-input asp-for="Author.Bio" text-area />
+
+                    
+                
+        </abp-modal-body>
+
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>
