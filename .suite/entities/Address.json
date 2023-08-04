@@ -10,9 +10,9 @@
   "PrimaryKeyType": "Guid",
   "IsMultiTenant": false,
   "CheckConcurrency": true,
-  "ShouldCreateUserInterface": true,
+  "ShouldCreateUserInterface": false,
   "ShouldCreateBackend": true,
-  "ShouldExportExcel": true,
+  "ShouldExportExcel": false,
   "ShouldAddMigration": true,
   "ShouldUpdateDatabase": true,
   "CreateTests": true,
@@ -62,7 +62,7 @@
       "OrdinalIndex": 0
     },
     {
-      "Id": "050766f5-7047-4f18-b0cf-b07217292b0b",
+      "Id": "bc1c6777-bba2-4499-bdad-1bf773e0aaf5",
       "Name": "PostalCode",
       "Type": "long",
       "EnumType": "",
@@ -73,8 +73,8 @@
       "IsNullable": false,
       "IsRequired": true,
       "IsTextArea": false,
-      "MinLength": 6,
-      "MaxLength": 10,
+      "MinLength": null,
+      "MaxLength": null,
       "SortOrder": 0,
       "SortType": 0,
       "Regex": "",
@@ -344,13 +344,14 @@
         "Western_Sahara": 239,
         "Yemen": 240,
         "Zambia": 241,
-        "Zimbabwe": 242
+        "Zimbabwe": 242,
+        "Others": 243
       },
       "IsSelected": true,
       "OrdinalIndex": 0
     },
     {
-      "Id": "c664464e-9f81-498b-af5d-73b1940e45c0",
+      "Id": "b720f3ed-f662-4e98-8fd2-492914fc5b77",
       "Name": "UserId",
       "Type": "Guid",
       "EnumType": "",

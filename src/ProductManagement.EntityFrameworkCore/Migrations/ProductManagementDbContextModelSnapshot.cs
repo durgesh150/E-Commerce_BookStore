@@ -79,7 +79,6 @@ namespace ProductManagement.Migrations
                         .HasColumnName("LastModifierId");
 
                     b.Property<long>("PostalCode")
-                        .HasMaxLength(10)
                         .HasColumnType("bigint")
                         .HasColumnName("PostalCode");
 

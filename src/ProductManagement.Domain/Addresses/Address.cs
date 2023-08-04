@@ -40,16 +40,6 @@ namespace ProductManagement.Addresses
             Id = id;
             Check.NotNull(cIty, nameof(cIty));
             Check.NotNull(state, nameof(state));
-            if (postalCode < AddressConsts.PostalCodeMinLength)
-            {
-                throw new ArgumentOutOfRangeException(nameof(postalCode), postalCode, "The value of 'postalCode' cannot be lower than " + AddressConsts.PostalCodeMinLength);
-            }
-
-            if (postalCode > AddressConsts.PostalCodeMaxLength)
-            {
-                throw new ArgumentOutOfRangeException(nameof(postalCode), postalCode, "The value of 'postalCode' cannot be greater than " + AddressConsts.PostalCodeMaxLength);
-            }
-
             Check.NotNull(streetAddress, nameof(streetAddress));
             CIty = cIty;
             State = state;

@@ -13,7 +13,6 @@ namespace ProductManagement.Addresses
         [Required]
         public string State { get; set; }
         [Required]
-        [Range(AddressConsts.PostalCodeMinLength, AddressConsts.PostalCodeMaxLength)]
         public long PostalCode { get; set; }
         public Country Country { get; set; }
         public Guid UserId { get; set; }

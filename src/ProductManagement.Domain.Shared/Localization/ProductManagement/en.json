@@ -316,6 +316,7 @@
     "StreetAddress": "Street Address",
     "MinPostalCode": "Min Postal Code",
     "MaxPostalCode": "Max Postal Code",
-    "Menu:Addresses": "Addresses"
+    "Menu:Addresses": "Addresses",
+    "Enum:Country.243": "Others"
   }
 }

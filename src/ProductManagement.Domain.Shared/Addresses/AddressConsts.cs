@@ -9,7 +9,5 @@ namespace ProductManagement.Addresses
             return string.Format(DefaultSorting, withEntityName ? "Address." : string.Empty);
         }
 
-        public const long PostalCodeMinLength = 6;
-        public const long PostalCodeMaxLength = 10;
     }
 }
