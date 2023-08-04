@@ -59,20 +59,7 @@
                                 }
                                 else
                                 {
-                                    <div class="cart-item">
-                                        <form method="post" asp-page-handler="RemoveFromCart" asp-route-bookId="@Model.Books[i].Id">
-                                            <button type="submit" class="btn btn-danger">Remove</button>
-                                        </form>
-                                        <div class="quantity-control">
-                                            <form method="post" asp-page-handler="UpdateQuantity" asp-route-bookId="@Model.Books[i].Id" asp-route-quantity="@Model.Books[i].CartQuantity">
-                                                <button type="submit" class="btn btn-primary quantity-button" id="quantity-decrement-@Model.Books[i].Id" name="quantity" value="@Model.Books[i].CartQuantity - 1">-</button>
-                                                <input type="number" class="cart-quantity" id="quantity-input-@Model.Books[i].Id" name="quantity" value="@Model.Books[i].CartQuantity" min="0" />
-                                                <button type="submit" class="btn btn-primary quantity-button" id="quantity-increment-@Model.Books[i].Id" name="quantity" value="@Model.Books[i].CartQuantity + 1">+</button>
-
-                                            </form>
-
-                                        </div>
-                                    </div>
+                                    <a asp-page="/Carts/Cart" class="btn btn-primary">Go to Cart </a>
                                 }
                             </td>
                         </tr>

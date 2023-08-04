@@ -1,3 +1,5 @@
+using ProductManagement.Web.Pages.Addresses;
+using ProductManagement.Addresses;
 using ProductManagement.Web.Pages.Books;
 using ProductManagement.Books;
 using ProductManagement.Web.Pages.Authors;
@@ -20,5 +22,9 @@ public class ProductManagementWebAutoMapperProfile : Profile
         CreateMap<BookDto, BookUpdateViewModel>();
         CreateMap<BookUpdateViewModel, BookUpdateDto>();
         CreateMap<BookCreateViewModel, BookCreateDto>();
+
+        CreateMap<AddressDto, AddressUpdateViewModel>();
+        CreateMap<AddressUpdateViewModel, AddressUpdateDto>();
+        CreateMap<AddressCreateViewModel, AddressCreateDto>();
     }
 }

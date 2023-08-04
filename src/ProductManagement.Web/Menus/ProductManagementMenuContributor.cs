@@ -103,6 +103,15 @@ public class ProductManagementMenuContributor : IMenuContributor
                 icon: "fa fa-file-alt",
                 requiredPermissionName: ProductManagementPermissions.Books.Default)
         );
+
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                ProductManagementMenus.Addresses,
+                l["Menu:Addresses"],
+                url: "/Addresses",
+                icon: "fa fa-file-alt",
+                requiredPermissionName: ProductManagementPermissions.Addresses.Default)
+        );
         return Task.CompletedTask;
     }
 }

@@ -25,16 +25,17 @@ namespace ProductManagement.Addresses
             {
                 // Act
                 var result = await _addressRepository.GetListAsync(
-                    cIty: "02fc3d209ead48c3909140da8ff4abacecfc3d57829f4597b1f0788e43ab9e255b1b250c96364ccd91e",
-                    state: "121c41379ae24838ad29fc20dd209a8092f65b6a57bd4f6d871fe06ef6db6653",
+                    cIty: "afabe49257f74b64a7bcac3a87b0f1c2366a6c57dcaa437f",
+                    state: "89d1935df",
                     country: default,
-                    userId: Guid.Parse("586711e2-9f24-4f29-a830-9e29006a00c3")
+                    userId: Guid.Parse("125b1e5a-12f1-49c7-b877-e0f717b81372"),
+                    streetAddress: "d604660eb7"
                 );
 
                 // Assert
                 result.Count.ShouldBe(1);
                 result.FirstOrDefault().ShouldNotBe(null);
-                result.First().Id.ShouldBe(Guid.Parse("e27c9730-4840-480c-8901-4064b5062be0"));
+                result.First().Id.ShouldBe(Guid.Parse("96f66c43-719a-4748-837b-c25ef764ba42"));
             });
         }
 
@@ -46,10 +47,11 @@ namespace ProductManagement.Addresses
             {
                 // Act
                 var result = await _addressRepository.GetCountAsync(
-                    cIty: "3a861f053fff4da2939c944a70dbe3b6f834bf65d1944d149ae3cb74da9",
-                    state: "3df7c18fcb4449",
+                    cIty: "55a8d71dbde34bda858539715e4d39418918400b6bfc44e09c77016ada2f45f1b54f2",
+                    state: "6f017d4ef68c4cddb555e845c84b349334321ac",
                     country: default,
-                    userId: Guid.Parse("7b935bdf-9528-4dad-aec1-a5536140f725")
+                    userId: Guid.Parse("ca1132c6-d278-42d4-bf1e-d73832daab68"),
+                    streetAddress: "e031b1ced73645e58efa19083e2c"
                 );
 
                 // Assert

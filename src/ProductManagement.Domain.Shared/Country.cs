@@ -243,5 +243,6 @@ public enum Country
     Western_Sahara,
     Yemen,
     Zambia,
-    Zimbabwe
+    Zimbabwe,
+    Others
 }

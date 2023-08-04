@@ -83,4 +83,32 @@ public class CartModel : PageModel
         // Redirect back to the same page (refresh) to update the cart content
         return RedirectToPage();
     }
+
+    public async Task<IActionResult> OnPostUpdateQuantity(Guid Id,Guid Bookid , int Quantity)
+    {
+        // Get the current user ID from the authentication system
+        Guid currentUserId = _currentUser.Id ?? Guid.Empty;
+
+        // Get the cart item from the service
+        var cartItem = await _cartsAppService.GetAsync(Id);
+
+        // Update the quantity
+        CartUpdateDto cartUpdateDto = new()
+        {
+            BookId = Bookid,
+            Quantity = Quantity,
+            ConcurrencyStamp = cartItem.ConcurrencyStamp,
+            DateAdded = cartItem.DateAdded,
+            UserId = cartItem.UserId
+        };
+
+        // Update the cart item in the service
+        await _cartsAppService.UpdateAsync(Id, cartUpdateDto);
+
+        // Optionally, you can show a success message indicating the item was updated
+        TempData["CartMessage"] = "Item updated.";
+
+        // Redirect back to the same page (refresh) to update the cart content
+        return RedirectToPage();
+    }
 }

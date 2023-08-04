@@ -4,8 +4,10 @@ using System;
 
 namespace ProductManagement.Addresses
 {
-    public class GetAddressesInput : PagedAndSortedResultRequestDto
+    public class AddressExcelDownloadDto
     {
+        public string DownloadToken { get; set; }
+
         public string? FilterText { get; set; }
 
         public string? CIty { get; set; }
@@ -16,7 +18,7 @@ namespace ProductManagement.Addresses
         public Guid? UserId { get; set; }
         public string? StreetAddress { get; set; }
 
-        public GetAddressesInput()
+        public AddressExcelDownloadDto()
         {
 
         }

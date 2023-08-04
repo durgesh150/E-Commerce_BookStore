@@ -184,7 +184,7 @@ public class ProductManagementWebModule : AbpModule
         });
         Configure<LeptonXThemeMvcOptions>(options =>
         {
-            options.ApplicationLayout = LeptonXMvcLayouts.TopMenu   ;
+            options.ApplicationLayout = LeptonXMvcLayouts.TopMenu;
         });
     }
 
@@ -215,6 +215,7 @@ public class ProductManagementWebModule : AbpModule
             options.Conventions.AuthorizePage("/TenantDashboard", ProductManagementPermissions.Dashboard.Tenant);
             options.Conventions.AuthorizePage("/Authors/Index", ProductManagementPermissions.Authors.Default);
             options.Conventions.AuthorizePage("/Books/Index", ProductManagementPermissions.Books.Default);
+            options.Conventions.AuthorizePage("/Addresses/Index", ProductManagementPermissions.Addresses.Default);
         });
     }
 

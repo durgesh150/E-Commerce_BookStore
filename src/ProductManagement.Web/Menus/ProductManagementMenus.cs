@@ -13,4 +13,6 @@ public class ProductManagementMenus
 
     public const string Books = Prefix + ".Books";
 
+    public const string Addresses = Prefix + ".Addresses";
+
 }

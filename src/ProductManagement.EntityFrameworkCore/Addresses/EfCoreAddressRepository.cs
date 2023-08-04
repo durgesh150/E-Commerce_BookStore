@@ -28,12 +28,13 @@ namespace ProductManagement.Addresses
             long? postalCodeMax = null,
             Country? country = null,
             Guid? userId = null,
+            string streetAddress = null,
             string sorting = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             CancellationToken cancellationToken = default)
         {
-            var query = ApplyFilter((await GetQueryableAsync()), filterText, cIty, state, postalCodeMin, postalCodeMax, country, userId);
+            var query = ApplyFilter((await GetQueryableAsync()), filterText, cIty, state, postalCodeMin, postalCodeMax, country, userId, streetAddress);
             query = query.OrderBy(string.IsNullOrWhiteSpace(sorting) ? AddressConsts.GetDefaultSorting(false) : sorting);
             return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
         }
@@ -46,9 +47,10 @@ namespace ProductManagement.Addresses
             long? postalCodeMax = null,
             Country? country = null,
             Guid? userId = null,
+            string streetAddress = null,
             CancellationToken cancellationToken = default)
         {
-            var query = ApplyFilter((await GetDbSetAsync()), filterText, cIty, state, postalCodeMin, postalCodeMax, country, userId);
+            var query = ApplyFilter((await GetDbSetAsync()), filterText, cIty, state, postalCodeMin, postalCodeMax, country, userId, streetAddress);
             return await query.LongCountAsync(GetCancellationToken(cancellationToken));
         }
 
@@ -60,16 +62,18 @@ namespace ProductManagement.Addresses
             long? postalCodeMin = null,
             long? postalCodeMax = null,
             Country? country = null,
-            Guid? userId = null)
+            Guid? userId = null,
+            string streetAddress = null)
         {
             return query
-                    .WhereIf(!string.IsNullOrWhiteSpace(filterText), e => e.CIty.Contains(filterText) || e.State.Contains(filterText))
+                    .WhereIf(!string.IsNullOrWhiteSpace(filterText), e => e.CIty.Contains(filterText) || e.State.Contains(filterText) || e.StreetAddress.Contains(filterText))
                     .WhereIf(!string.IsNullOrWhiteSpace(cIty), e => e.CIty.Contains(cIty))
                     .WhereIf(!string.IsNullOrWhiteSpace(state), e => e.State.Contains(state))
                     .WhereIf(postalCodeMin.HasValue, e => e.PostalCode >= postalCodeMin.Value)
                     .WhereIf(postalCodeMax.HasValue, e => e.PostalCode <= postalCodeMax.Value)
                     .WhereIf(country.HasValue, e => e.Country == country)
-                    .WhereIf(userId.HasValue, e => e.UserId == userId);
+                    .WhereIf(userId.HasValue, e => e.UserId == userId)
+                    .WhereIf(!string.IsNullOrWhiteSpace(streetAddress), e => e.StreetAddress.Contains(streetAddress));
         }
     }
 }
