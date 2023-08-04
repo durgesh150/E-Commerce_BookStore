@@ -11,12 +11,6 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using ProductManagement.Permissions;
 using ProductManagement.Addresses;
-using MiniExcelLibs;
-using Volo.Abp.Content;
-using Volo.Abp.Authorization;
-using Volo.Abp.Caching;
-using Microsoft.Extensions.Caching.Distributed;
-using ProductManagement.Shared;
 
 namespace ProductManagement.Addresses
 {
@@ -24,13 +18,13 @@ namespace ProductManagement.Addresses
     [Authorize(ProductManagementPermissions.Addresses.Default)]
     public class AddressesAppService : ApplicationService, IAddressesAppService
     {
-        private readonly IDistributedCache<AddressExcelDownloadTokenCacheItem, string> _excelDownloadTokenCache;
+
         private readonly IAddressRepository _addressRepository;
         private readonly AddressManager _addressManager;
 
-        public AddressesAppService(IAddressRepository addressRepository, AddressManager addressManager, IDistributedCache<AddressExcelDownloadTokenCacheItem, string> excelDownloadTokenCache)
+        public AddressesAppService(IAddressRepository addressRepository, AddressManager addressManager)
         {
-            _excelDownloadTokenCache = excelDownloadTokenCache;
+
             _addressRepository = addressRepository;
             _addressManager = addressManager;
         }
@@ -79,42 +73,6 @@ namespace ProductManagement.Addresses
             );
 
             return ObjectMapper.Map<Address, AddressDto>(address);
-        }
-
-        [AllowAnonymous]
-        public virtual async Task<IRemoteStreamContent> GetListAsExcelFileAsync(AddressExcelDownloadDto input)
-        {
-            var downloadToken = await _excelDownloadTokenCache.GetAsync(input.DownloadToken);
-            if (downloadToken == null || input.DownloadToken != downloadToken.Token)
-            {
-                throw new AbpAuthorizationException("Invalid download token: " + input.DownloadToken);
-            }
-
-            var items = await _addressRepository.GetListAsync(input.FilterText, input.CIty, input.State, input.PostalCodeMin, input.PostalCodeMax, input.Country, input.UserId, input.StreetAddress);
-
-            var memoryStream = new MemoryStream();
-            await memoryStream.SaveAsAsync(ObjectMapper.Map<List<Address>, List<AddressExcelDto>>(items));
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            return new RemoteStreamContent(memoryStream, "Addresses.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        }
-
-        public async Task<DownloadTokenResultDto> GetDownloadTokenAsync()
-        {
-            var token = Guid.NewGuid().ToString("N");
-
-            await _excelDownloadTokenCache.SetAsync(
-                token,
-                new AddressExcelDownloadTokenCacheItem { Token = token },
-                new DistributedCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
-                });
-
-            return new DownloadTokenResultDto
-            {
-                Token = token
-            };
         }
     }
 }

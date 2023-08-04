@@ -25,7 +25,6 @@ namespace ProductManagement.Addresses
         {
             Check.NotNullOrWhiteSpace(cIty, nameof(cIty));
             Check.NotNullOrWhiteSpace(state, nameof(state));
-            Check.Range(postalCode, nameof(postalCode), AddressConsts.PostalCodeMinLength, AddressConsts.PostalCodeMaxLength);
             Check.NotNull(country, nameof(country));
             Check.NotNullOrWhiteSpace(streetAddress, nameof(streetAddress));
 
@@ -44,7 +43,6 @@ namespace ProductManagement.Addresses
         {
             Check.NotNullOrWhiteSpace(cIty, nameof(cIty));
             Check.NotNullOrWhiteSpace(state, nameof(state));
-            Check.Range(postalCode, nameof(postalCode), AddressConsts.PostalCodeMinLength, AddressConsts.PostalCodeMaxLength);
             Check.NotNull(country, nameof(country));
             Check.NotNullOrWhiteSpace(streetAddress, nameof(streetAddress));
 
