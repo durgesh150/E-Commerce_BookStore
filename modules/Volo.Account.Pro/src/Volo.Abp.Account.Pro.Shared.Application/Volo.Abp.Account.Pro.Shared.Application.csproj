@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Stripe.net" Version="41.27.0" />
     <PackageReference Include="System.Text.Encodings.Web" Version="$(MicrosoftPackageVersion)" />
     <PackageReference Include="Volo.Abp.Identity.Pro.Domain" Version="7.1.0" />
     <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="7.1.0" />

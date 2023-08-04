@@ -77,7 +77,7 @@ namespace ProductManagement.Web.Pages.Addresses
 
                 var createdAddress = await _addressesAppService.CreateAsync(address);
 
-                return RedirectToPage("/Review");
+                return RedirectToPage("/Address");
             }
             catch (Exception ex)
             {

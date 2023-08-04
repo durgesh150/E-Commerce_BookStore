@@ -8,6 +8,7 @@
     <RootNamespace />
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Stripe.net" Version="41.27.0" />
     <PackageReference Include="Volo.Abp.Http.Client" Version="7.1.0" />
     <ProjectReference Include="..\Volo.Abp.Account.Pro.Admin.Application.Contracts\Volo.Abp.Account.Pro.Admin.Application.Contracts.csproj" />
   </ItemGroup>

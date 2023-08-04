@@ -16,6 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
+    <PackageReference Include="Stripe.net" Version="41.27.0" />
     <ProjectReference Include="..\ProductManagement.Application.Tests\ProductManagement.Application.Tests.csproj" />
     <ProjectReference Include="..\..\src\ProductManagement.Web\ProductManagement.Web.csproj" />
     <PackageReference Include="Volo.Abp.AspNetCore.TestBase" Version="7.1.0" />

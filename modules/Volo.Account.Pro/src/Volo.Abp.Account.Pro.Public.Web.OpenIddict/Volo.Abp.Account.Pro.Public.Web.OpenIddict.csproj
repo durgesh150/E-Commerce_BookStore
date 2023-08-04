@@ -29,6 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Stripe.net" Version="41.27.0" />
         <PackageReference Include="Volo.Abp.OpenIddict.AspNetCore" Version="7.1.0" />
         <ProjectReference Include="..\Volo.Abp.Account.Pro.Public.Web\Volo.Abp.Account.Pro.Public.Web.csproj" />
         <PackageReference Include="Volo.Abp.Commercial.Core" Version="7.1.0" />

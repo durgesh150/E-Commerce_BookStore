@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Stripe.net" Version="41.27.0" />
     <PackageReference Include="Volo.Abp.Identity.Pro.Application.Contracts" Version="7.1.0" />
   </ItemGroup>
 
