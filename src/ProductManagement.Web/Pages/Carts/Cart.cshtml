@@ -28,24 +28,40 @@ else
                         <td>@Model.BookTitles[uniqueCartItem.BookId]</td>
                         <td>@Model.Price[uniqueCartItem.BookId]</td>
                         <td>
-                            <form asp-page-handler="RemoveFromCart" asp-route-Id="@uniqueCartItem.Id" asp-route-bookId="@uniqueCartItem.BookId">
-                                <button type="submit" class="btn btn-danger">Remove</button>
-                            </form>
 
-                            <form asp-page-handler="UpdateQuantity" asp-route-Id="@uniqueCartItem.Id" asp-route-bookId="@uniqueCartItem.BookId">
-                                <div class="input-group">
-                                    <input type="number" class="form-control" name="quantity" value="@uniqueCartItem.Quantity" min="1" />
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-primary">Update</button>
+                            <div class="d-flex align-items-center">
+
+                                <form asp-page-handler="RemoveFromCart" asp-route-Id="@uniqueCartItem.Id" asp-route-bookId="@uniqueCartItem.BookId">
+                                    <button type="submit" class="btn btn-light mr-2">
+                                        <img src="~/images/logo/leptonx/deleteicon.png" />
+                                    </button>
+                                </form>
+
+                                <form asp-page-handler="UpdateQuantity" asp-route-Id="@uniqueCartItem.Id" asp-route-bookId="@uniqueCartItem.BookId" asp-route-quantity="@uniqueCartItem.Quantity"class="flex-grow-1">
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" class="form-control" name="quantity" value="@uniqueCartItem.Quantity" min="1" style="width: 90px;" />
+                                        <button type="submit" class="btn btn-primary ml-2">Update</button>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+
+                            </div>
+
                         </td>
+
                     </tr>
                 }
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="1"></td>
+                    <td><strong>Total:</strong></td>
+                    <td><strong>@Model.UniqueCartItems.Values.Sum(item => Model.Price[item.BookId] * item.Quantity)</strong></td> <!-- Calculate and display the total sum of the cart -->
+                </tr>
+            </tfoot>
         </table>
     </div>
-
+    <div class="text-right mt-3">
+        <a asp-page="/Address" class="btn btn-warning text-white">Checkout</a>
+    </div>
 
 }

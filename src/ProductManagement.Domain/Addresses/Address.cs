@@ -26,12 +26,15 @@ namespace ProductManagement.Addresses
 
         public virtual Guid UserId { get; set; }
 
+        [NotNull]
+        public virtual string StreetAddress { get; set; }
+
         public Address()
         {
 
         }
 
-        public Address(Guid id, string cIty, string state, long postalCode, Country country, Guid userId)
+        public Address(Guid id, string cIty, string state, long postalCode, Country country, Guid userId, string streetAddress)
         {
 
             Id = id;
@@ -47,11 +50,13 @@ namespace ProductManagement.Addresses
                 throw new ArgumentOutOfRangeException(nameof(postalCode), postalCode, "The value of 'postalCode' cannot be greater than " + AddressConsts.PostalCodeMaxLength);
             }
 
+            Check.NotNull(streetAddress, nameof(streetAddress));
             CIty = cIty;
             State = state;
             PostalCode = postalCode;
             Country = country;
             UserId = userId;
+            StreetAddress = streetAddress;
         }
 
     }

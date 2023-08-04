@@ -1,11 +1,9 @@
 using ProductManagement;
 using System;
-using Volo.Abp.Application.Dtos;
-using Volo.Abp.Domain.Entities;
 
 namespace ProductManagement.Addresses
 {
-    public class AddressDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
+    public class AddressExcelDto
     {
         public string CIty { get; set; }
         public string State { get; set; }
@@ -13,7 +11,5 @@ namespace ProductManagement.Addresses
         public Country Country { get; set; }
         public Guid UserId { get; set; }
         public string StreetAddress { get; set; }
-
-        public string ConcurrencyStamp { get; set; }
     }
 }

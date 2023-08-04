@@ -21,16 +21,17 @@ namespace ProductManagement.Addresses
         }
 
         public async Task<Address> CreateAsync(
-        string cIty, string state, long postalCode, Country country, Guid userId)
+        string cIty, string state, long postalCode, Country country, Guid userId, string streetAddress)
         {
             Check.NotNullOrWhiteSpace(cIty, nameof(cIty));
             Check.NotNullOrWhiteSpace(state, nameof(state));
             Check.Range(postalCode, nameof(postalCode), AddressConsts.PostalCodeMinLength, AddressConsts.PostalCodeMaxLength);
             Check.NotNull(country, nameof(country));
+            Check.NotNullOrWhiteSpace(streetAddress, nameof(streetAddress));
 
             var address = new Address(
              GuidGenerator.Create(),
-             cIty, state, postalCode, country, userId
+             cIty, state, postalCode, country, userId, streetAddress
              );
 
             return await _addressRepository.InsertAsync(address);
@@ -38,13 +39,14 @@ namespace ProductManagement.Addresses
 
         public async Task<Address> UpdateAsync(
             Guid id,
-            string cIty, string state, long postalCode, Country country, Guid userId, [CanBeNull] string concurrencyStamp = null
+            string cIty, string state, long postalCode, Country country, Guid userId, string streetAddress, [CanBeNull] string concurrencyStamp = null
         )
         {
             Check.NotNullOrWhiteSpace(cIty, nameof(cIty));
             Check.NotNullOrWhiteSpace(state, nameof(state));
             Check.Range(postalCode, nameof(postalCode), AddressConsts.PostalCodeMinLength, AddressConsts.PostalCodeMaxLength);
             Check.NotNull(country, nameof(country));
+            Check.NotNullOrWhiteSpace(streetAddress, nameof(streetAddress));
 
             var address = await _addressRepository.GetAsync(id);
 
@@ -53,6 +55,7 @@ namespace ProductManagement.Addresses
             address.PostalCode = postalCode;
             address.Country = country;
             address.UserId = userId;
+            address.StreetAddress = streetAddress;
 
             address.SetConcurrencyStampIfNotNull(concurrencyStamp);
             return await _addressRepository.UpdateAsync(address);

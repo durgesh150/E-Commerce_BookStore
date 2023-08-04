@@ -17,6 +17,8 @@ namespace ProductManagement.Addresses
         public long PostalCode { get; set; }
         public Country Country { get; set; }
         public Guid UserId { get; set; }
+        [Required]
+        public string StreetAddress { get; set; }
 
         public string ConcurrencyStamp { get; set; }
     }

@@ -140,16 +140,6 @@ public class ProductManagementDbContext :
         }
         if (builder.IsHostDatabase())
         {
-            builder.Entity<Address>(b =>
-{
-    b.ToTable(ProductManagementConsts.DbTablePrefix + "Addresses", ProductManagementConsts.DbSchema);
-    b.ConfigureByConvention();
-    b.Property(x => x.CIty).HasColumnName(nameof(Address.CIty)).IsRequired();
-    b.Property(x => x.State).HasColumnName(nameof(Address.State)).IsRequired();
-    b.Property(x => x.PostalCode).HasColumnName(nameof(Address.PostalCode)).IsRequired().HasMaxLength((int)AddressConsts.PostalCodeMaxLength);
-    b.Property(x => x.Country).HasColumnName(nameof(Address.Country));
-    b.Property(x => x.UserId).HasColumnName(nameof(Address.UserId));
-});
 
         }
         if (builder.IsHostDatabase())
@@ -192,6 +182,25 @@ public class ProductManagementDbContext :
     b.Property(x => x.Quantity).HasColumnName(nameof(Cart.Quantity));
     b.Property(x => x.DateAdded).HasColumnName(nameof(Cart.DateAdded));
     b.HasOne<Book>().WithMany().HasForeignKey(x => x.BookId).OnDelete(DeleteBehavior.NoAction);
+});
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+            builder.Entity<Address>(b =>
+{
+    b.ToTable(ProductManagementConsts.DbTablePrefix + "Addresses", ProductManagementConsts.DbSchema);
+    b.ConfigureByConvention();
+    b.Property(x => x.CIty).HasColumnName(nameof(Address.CIty)).IsRequired();
+    b.Property(x => x.State).HasColumnName(nameof(Address.State)).IsRequired();
+    b.Property(x => x.PostalCode).HasColumnName(nameof(Address.PostalCode)).IsRequired().HasMaxLength((int)AddressConsts.PostalCodeMaxLength);
+    b.Property(x => x.Country).HasColumnName(nameof(Address.Country));
+    b.Property(x => x.UserId).HasColumnName(nameof(Address.UserId));
+    b.Property(x => x.StreetAddress).HasColumnName(nameof(Address.StreetAddress)).IsRequired();
 });
 
         }

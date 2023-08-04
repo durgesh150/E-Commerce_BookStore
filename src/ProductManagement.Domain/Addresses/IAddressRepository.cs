@@ -17,6 +17,7 @@ namespace ProductManagement.Addresses
             long? postalCodeMax = null,
             Country? country = null,
             Guid? userId = null,
+            string streetAddress = null,
             string sorting = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
@@ -31,6 +32,7 @@ namespace ProductManagement.Addresses
             long? postalCodeMax = null,
             Country? country = null,
             Guid? userId = null,
+            string streetAddress = null,
             CancellationToken cancellationToken = default);
     }
 }

@@ -305,6 +305,17 @@
     "Transaction": "Transaction",
     "Book": "Book",
     "Permission:TransactionDetails": "Transaction Details",
-    "Permission:Carts": "Carts"
+    "Permission:Carts": "Carts",
+    "Addresses": "Addresses",
+    "NewAddress": "New Address",
+    "CIty": "C Ity",
+    "State": "State",
+    "PostalCode": "Postal Code",
+    "Country": "Country",
+    "UserId": "User Id",
+    "StreetAddress": "Street Address",
+    "MinPostalCode": "Min Postal Code",
+    "MaxPostalCode": "Max Postal Code",
+    "Menu:Addresses": "Addresses"
   }
 }

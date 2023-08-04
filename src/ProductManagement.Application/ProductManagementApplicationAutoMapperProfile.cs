@@ -38,5 +38,7 @@ public class ProductManagementApplicationAutoMapperProfile : Profile
 
         CreateMap<Cart, CartDto>();
         CreateMap<CartWithNavigationProperties, CartWithNavigationPropertiesDto>();
+
+        CreateMap<Address, AddressExcelDto>();
     }
 }
