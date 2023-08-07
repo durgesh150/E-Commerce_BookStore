@@ -22,6 +22,7 @@ using Volo.Saas.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.Gdpr;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
+using Volo.Payment.EntityFrameworkCore;
 
 namespace ProductManagement.EntityFrameworkCore;
 
@@ -41,7 +42,8 @@ namespace ProductManagement.EntityFrameworkCore;
     typeof(AbpGdprEntityFrameworkCoreModule),
     typeof(BlobStoringDatabaseEntityFrameworkCoreModule)
     )]
-public class ProductManagementEntityFrameworkCoreModule : AbpModule
+[DependsOn(typeof(AbpPaymentEntityFrameworkCoreModule))]
+    public class ProductManagementEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

@@ -21,6 +21,12 @@ using Volo.Abp.Commercial.SuiteTemplates;
 using Volo.Abp.Gdpr;
 using Volo.Abp.OpenIddict;
 using Volo.Abp.PermissionManagement.OpenIddict;
+using Volo.Payment;
+using Volo.Payment.Payu;
+using Volo.Payment.TwoCheckout;
+using Volo.Payment.Iyzico;
+using Volo.Payment.PayPal;
+using Volo.Payment.Stripe;
 
 namespace ProductManagement;
 
@@ -43,7 +49,13 @@ namespace ProductManagement;
     typeof(AbpGdprDomainModule),
     typeof(BlobStoringDatabaseDomainModule)
     )]
-public class ProductManagementDomainModule : AbpModule
+[DependsOn(typeof(AbpPaymentDomainModule))]
+    [DependsOn(typeof(AbpPaymentPayuDomainModule))]
+    [DependsOn(typeof(AbpPaymentTwoCheckoutDomainModule))]
+    [DependsOn(typeof(AbpPaymentIyzicoDomainModule))]
+    [DependsOn(typeof(AbpPaymentPayPalDomainModule))]
+    [DependsOn(typeof(AbpPaymentStripeDomainModule))]
+    public class ProductManagementDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

@@ -10,6 +10,13 @@
     <RootNamespace />
   </PropertyGroup>
 
+  
+  
+
+  <ItemGroup>
+    <PackageReference Include="Stripe.net" Version="41.27.0" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Volo.Abp.Account.Pro.Shared.Application.Contracts\Volo.Abp.Account.Pro.Shared.Application.Contracts.csproj" />
   </ItemGroup>

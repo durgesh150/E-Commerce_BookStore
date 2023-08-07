@@ -11,6 +11,8 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TextTemplateManagement;
 using Volo.Saas.Host;
+using Volo.Payment;
+using Volo.Payment.Admin;
 
 namespace ProductManagement;
 
@@ -31,6 +33,8 @@ namespace ProductManagement;
     typeof(TextTemplateManagementApplicationModule)
     )]
 [DependsOn(typeof(AbpAccountSharedApplicationModule))]
+    [DependsOn(typeof(AbpPaymentApplicationModule))]
+    [DependsOn(typeof(AbpPaymentAdminApplicationModule))]
     public class ProductManagementApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

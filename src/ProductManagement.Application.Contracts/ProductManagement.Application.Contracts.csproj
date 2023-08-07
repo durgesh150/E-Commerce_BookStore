@@ -13,7 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Volo.Payment.Admin.Application.Contracts" Version="7.1.0" />
+    <PackageReference Include="Volo.Payment.Application.Contracts" Version="7.1.0" />
     <ProjectReference Include="..\..\modules\Volo.Account.Pro\src\Volo.Abp.Account.Pro.Shared.Application.Contracts\Volo.Abp.Account.Pro.Shared.Application.Contracts.csproj" />
+    <PackageReference Include="Stripe.net" Version="41.27.0" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Application.Contracts" Version="7.1.0" />
     <PackageReference Include="Volo.Abp.FeatureManagement.Application.Contracts" Version="7.1.0" />
     <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="7.1.0" />

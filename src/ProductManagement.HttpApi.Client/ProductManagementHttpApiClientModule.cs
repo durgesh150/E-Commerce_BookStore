@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Account;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.FeatureManagement;
@@ -12,6 +12,8 @@ using Volo.Abp.SettingManagement;
 using Volo.Saas.Host;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Gdpr;
+using Volo.Payment;
+using Volo.Payment.Admin;
 
 namespace ProductManagement;
 
@@ -30,7 +32,9 @@ namespace ProductManagement;
     typeof(AbpGdprHttpApiClientModule),
     typeof(TextTemplateManagementHttpApiClientModule)
 )]
-public class ProductManagementHttpApiClientModule : AbpModule
+[DependsOn(typeof(AbpPaymentHttpApiClientModule))]
+    [DependsOn(typeof(AbpPaymentAdminHttpApiClientModule))]
+    public class ProductManagementHttpApiClientModule : AbpModule
 {
     public const string RemoteServiceName = "Default";
 
