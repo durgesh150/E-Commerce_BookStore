@@ -10,6 +10,8 @@ using Volo.Abp.TextTemplateManagement;
 using Volo.Saas.Host;
 using Volo.Abp.Gdpr;
 using Volo.Abp.OpenIddict;
+using Volo.Payment;
+using Volo.Payment.Admin;
 
 namespace ProductManagement;
 
@@ -29,6 +31,8 @@ namespace ProductManagement;
     typeof(TextTemplateManagementApplicationContractsModule)
 )]
 [DependsOn(typeof(AbpAccountSharedApplicationContractsModule))]
+    [DependsOn(typeof(AbpPaymentApplicationContractsModule))]
+    [DependsOn(typeof(AbpPaymentAdminApplicationContractsModule))]
     public class ProductManagementApplicationContractsModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

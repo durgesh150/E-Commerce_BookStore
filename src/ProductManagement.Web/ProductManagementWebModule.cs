@@ -59,6 +59,13 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.OpenIddict.Pro.Web;
 using Volo.Abp.SettingManagement.Web;
 using Volo.Abp.Account;
+using Volo.Payment.Payu;
+using Volo.Payment.TwoCheckout;
+using Volo.Payment;
+using Volo.Payment.Iyzico;
+using Volo.Payment.PayPal;
+using Volo.Payment.Stripe;
+using Volo.Payment.Admin.Web;
 
 namespace ProductManagement.Web;
 
@@ -82,7 +89,14 @@ namespace ProductManagement.Web;
 )]
 [DependsOn(typeof(AbpAccountPublicWebModule))]
 [DependsOn(typeof(AbpAccountPublicWebIdentityServerModule))]
-public class ProductManagementWebModule : AbpModule
+[DependsOn(typeof(AbpPaymentPayuWebModule))]
+    [DependsOn(typeof(AbpPaymentTwoCheckoutWebModule))]
+    [DependsOn(typeof(AbpPaymentWebModule))]
+    [DependsOn(typeof(AbpPaymentIyzicoWebModule))]
+    [DependsOn(typeof(AbpPaymentPayPalWebModule))]
+    [DependsOn(typeof(AbpPaymentStripeWebModule))]
+    [DependsOn(typeof(AbpPaymentAdminWebModule))]
+    public class ProductManagementWebModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

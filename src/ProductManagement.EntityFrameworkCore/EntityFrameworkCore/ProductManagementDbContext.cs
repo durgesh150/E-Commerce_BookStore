@@ -24,6 +24,7 @@ using Volo.Saas.Editions;
 using Volo.Saas.Tenants;
 using Volo.Abp.Gdpr;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
+using Volo.Payment.EntityFrameworkCore;
 
 namespace ProductManagement.EntityFrameworkCore;
 
@@ -224,5 +225,6 @@ public class ProductManagementDbContext :
 });
 
         }
-    }
+        builder.ConfigurePayment();
+        }
 }

@@ -17,6 +17,7 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.BlobStoring.Database;
 using Volo.Abp.Gdpr;
 using Volo.Abp.GlobalFeatures;
+using Volo.Payment;
 
 namespace ProductManagement;
 
@@ -35,7 +36,8 @@ namespace ProductManagement;
     typeof(AbpGlobalFeaturesModule),
     typeof(BlobStoringDatabaseDomainSharedModule)
     )]
-public class ProductManagementDomainSharedModule : AbpModule
+[DependsOn(typeof(AbpPaymentDomainSharedModule))]
+    public class ProductManagementDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
