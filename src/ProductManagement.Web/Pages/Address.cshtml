@@ -3,8 +3,25 @@
 @using ProductManagement
 @{
 }
-
-<h1>Address Details</h1>
+@*<textarea class="form-control" id="Street-Address" name="StreetAddress" required>@(ViewData["StreetAddress"] ?? "")</textarea>
+<input type="text" class="form-control" id="City" name="City" required value="@(ViewData["City"] ?? "")">
+<input type="text" class="form-control" id="State" name="State" required value="@(ViewData["State"] ?? "")">
+<input type="number" class="form-control" id="PostalCode" name="PostalCode" required value="@(ViewData["PostalCode"] ?? 0)">
+<select class="form-control" id="Country" name="Country" required>
+    <option value="">Select Country</option>
+    @foreach (var country in Enum.GetValues(typeof(Country)))
+    {
+        if (country.ToString() == ViewData["Country"]?.ToString())
+        {
+            <option value="@country" selected>@country</option>
+        }
+        else
+        {
+            <option value="@country">@country</option>
+        }
+    }
+</select>
+*@
 <form id="addressForm" method="post" novalidate>
     <div class="form-group">
         <label for="Street-Address">Street Address</label>

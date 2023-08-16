@@ -175,15 +175,6 @@ public class ProductManagementDbContext :
         }
         if (builder.IsHostDatabase())
         {
-            builder.Entity<Cart>(b =>
-{
-    b.ToTable(ProductManagementConsts.DbTablePrefix + "Carts", ProductManagementConsts.DbSchema);
-    b.ConfigureByConvention();
-    b.Property(x => x.UserId).HasColumnName(nameof(Cart.UserId));
-    b.Property(x => x.Quantity).HasColumnName(nameof(Cart.Quantity));
-    b.Property(x => x.DateAdded).HasColumnName(nameof(Cart.DateAdded));
-    b.HasOne<Book>().WithMany().HasForeignKey(x => x.BookId).OnDelete(DeleteBehavior.NoAction);
-});
 
         }
         if (builder.IsHostDatabase())
@@ -226,5 +217,33 @@ public class ProductManagementDbContext :
 
         }
         builder.ConfigurePayment();
+        if (builder.IsHostDatabase())
+        {
+
         }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+
+        }
+        if (builder.IsHostDatabase())
+        {
+            builder.Entity<Cart>(b =>
+{
+    b.ToTable(ProductManagementConsts.DbTablePrefix + "Carts", ProductManagementConsts.DbSchema);
+    b.ConfigureByConvention();
+    b.Property(x => x.UserId).HasColumnName(nameof(Cart.UserId));
+    b.Property(x => x.Quantity).HasColumnName(nameof(Cart.Quantity));
+    b.Property(x => x.DateAdded).HasColumnName(nameof(Cart.DateAdded));
+    b.Property(x => x.UnitPrice).HasColumnName(nameof(Cart.UnitPrice));
+    b.Property(x => x.TotalPrice).HasColumnName(nameof(Cart.TotalPrice));
+    b.Property(x => x.LastModified).HasColumnName(nameof(Cart.LastModified));
+    b.HasOne<Book>().WithMany().IsRequired().HasForeignKey(x => x.BookId).OnDelete(DeleteBehavior.NoAction);
+});
+
+        }
+    }
 }

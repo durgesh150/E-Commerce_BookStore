@@ -1,0 +1,70 @@
+﻿@page
+@model ProductManagement.Web.Payments.IndexModel
+@{
+    ViewData["Title"] = "Payment Summary";
+
+}
+<head>
+    <script src="https://js.stripe.com/v3/"></script>
+
+</head>
+<div id="stripe-payment-form">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>UnitPrice</th>
+                    <th>TotalPrice</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var uniqueCartItem in Model.UniqueCartItems.Values)
+                {
+                    <tr>
+                        <td>
+                            @if (Model.BookTitles.ContainsKey(uniqueCartItem.BookId))
+                            {
+                                @Model.BookTitles[uniqueCartItem.BookId]
+                            }
+                            else
+                            {
+                                <span>Book Not Found</span>
+                            }
+                        </td>
+                        <td>
+                            @if (Model.Price.ContainsKey(uniqueCartItem.BookId))
+                            {
+                                @Model.Price[uniqueCartItem.BookId]
+                            }
+                            else
+                            {
+                                <span>Price Not Found</span>
+                            }
+                        </td>
+                        <td>@uniqueCartItem.TotalPrice</td>
+                        <td>
+                            @uniqueCartItem.Quantity
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="1"></td>
+                    <td><strong>Total:</strong></td>
+                    <td><strong>@Model.UniqueCartItems.Values.Sum(item => Model.Price.ContainsKey(item.BookId) ? Model.Price[item.BookId] * item.Quantity : 0)</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <form id="payment-form" method="post">
+            <div id="card-element"></div>
+            <button id="submit-button" class="btn btn-primary">Pay now</button>
+        </form>
+        <div id="payment-message" class="text-danger"></div>
+    </div>
+</div>
+

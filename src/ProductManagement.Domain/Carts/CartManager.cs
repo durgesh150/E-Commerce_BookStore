@@ -20,13 +20,14 @@ namespace ProductManagement.Carts
         }
 
         public async Task<Cart> CreateAsync(
-        Guid? bookId, Guid userId, int quantity, DateTime dateAdded)
+        Guid bookId, Guid userId, int quantity, DateTime dateAdded, decimal unitPrice, decimal totalPrice, DateTime? lastModified = null)
         {
+            Check.NotNull(bookId, nameof(bookId));
             Check.NotNull(dateAdded, nameof(dateAdded));
 
             var cart = new Cart(
              GuidGenerator.Create(),
-             bookId, userId, quantity, dateAdded
+             bookId, userId, quantity, dateAdded, unitPrice, totalPrice, lastModified
              );
 
             return await _cartRepository.InsertAsync(cart);
@@ -34,9 +35,10 @@ namespace ProductManagement.Carts
 
         public async Task<Cart> UpdateAsync(
             Guid id,
-            Guid? bookId, Guid userId, int quantity, DateTime dateAdded, [CanBeNull] string concurrencyStamp = null
+            Guid bookId, Guid userId, int quantity, DateTime dateAdded, decimal unitPrice, decimal totalPrice, DateTime? lastModified = null, [CanBeNull] string concurrencyStamp = null
         )
         {
+            Check.NotNull(bookId, nameof(bookId));
             Check.NotNull(dateAdded, nameof(dateAdded));
 
             var cart = await _cartRepository.GetAsync(id);
@@ -45,6 +47,9 @@ namespace ProductManagement.Carts
             cart.UserId = userId;
             cart.Quantity = quantity;
             cart.DateAdded = dateAdded;
+            cart.UnitPrice = unitPrice;
+            cart.TotalPrice = totalPrice;
+            cart.LastModified = lastModified;
 
             cart.SetConcurrencyStampIfNotNull(concurrencyStamp);
             return await _cartRepository.UpdateAsync(cart);

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using ProductManagement.Addresses;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.ObjectMapping;
 using Volo.Abp.Users;
@@ -19,13 +20,15 @@ namespace ProductManagement.Web.Pages.Addresses
         private readonly IAddressesAppService _addressesAppService;
         private readonly ILogger<AddressModel> _logger;
         private readonly AddressManager _addressManager;
+        private readonly IAddressRepository _addressRepository;
 
-        public AddressModel(ICurrentUser currentUser, IAddressesAppService addressesAppService, ILogger<AddressModel> logger , AddressManager addressManager)
+        public AddressModel(ICurrentUser currentUser, IAddressesAppService addressesAppService, ILogger<AddressModel> logger , AddressManager addressManager, IAddressRepository addressRepository)
         {
             _currentUser = currentUser;
             _addressesAppService = addressesAppService;
             _logger = logger;
             _addressManager = addressManager;
+            _addressRepository = addressRepository;
         }
 
         [BindProperty]
@@ -43,9 +46,26 @@ namespace ProductManagement.Web.Pages.Addresses
         [BindProperty]
         public Country Country { get; set; }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            var allAddresses = await _addressRepository.GetListAsync(); // Replace with the appropriate method to fetch all addresses
+
+            // Find the user's address from the list
+            var userAddress = allAddresses.FirstOrDefault(a => a.UserId == _currentUser.Id);
+
+            if (userAddress != null)
+            {
+                ViewData["StreetAddress"] = userAddress.StreetAddress;
+                ViewData["City"] = userAddress.CIty;
+                ViewData["State"] = userAddress.State;
+                ViewData["PostalCode"] = userAddress.PostalCode;
+                ViewData["Country"] = userAddress.Country;
+            }
+
+            return Page();
         }
+
+
 
         public async Task<IActionResult> OnPost()
         {
@@ -77,7 +97,7 @@ namespace ProductManagement.Web.Pages.Addresses
 
                 var createdAddress = await _addressesAppService.CreateAsync(address);
 
-                return RedirectToPage("/Address");
+                return RedirectToPage("/Payments/Index");
             }
             catch (Exception ex)
             {

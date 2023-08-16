@@ -19,20 +19,29 @@ namespace ProductManagement.Carts
         public virtual int Quantity { get; set; }
 
         public virtual DateTime DateAdded { get; set; }
-        public Guid? BookId { get; set; }
+
+        public virtual decimal UnitPrice { get; set; }
+
+        public virtual decimal TotalPrice { get; set; }
+
+        public virtual DateTime? LastModified { get; set; }
+        public Guid BookId { get; set; }
 
         public Cart()
         {
 
         }
 
-        public Cart(Guid id, Guid? bookId, Guid userId, int quantity, DateTime dateAdded)
+        public Cart(Guid id, Guid bookId, Guid userId, int quantity, DateTime dateAdded, decimal unitPrice, decimal totalPrice, DateTime? lastModified = null)
         {
 
             Id = id;
             UserId = userId;
             Quantity = quantity;
             DateAdded = dateAdded;
+            UnitPrice = unitPrice;
+            TotalPrice = totalPrice;
+            LastModified = lastModified;
             BookId = bookId;
         }
 
