@@ -25,13 +25,13 @@ namespace ProductManagement.Carts
             {
                 // Act
                 var result = await _cartRepository.GetListAsync(
-                    userId: Guid.Parse("58263738-e001-4d79-80af-775b907da915")
+                    userId: Guid.Parse("3242797a-2978-4259-a65b-a99b0669b19f")
                 );
 
                 // Assert
                 result.Count.ShouldBe(1);
                 result.FirstOrDefault().ShouldNotBe(null);
-                result.First().Id.ShouldBe(Guid.Parse("c8e464fe-9290-4138-b7dc-5ab17c28e42e"));
+                result.First().Id.ShouldBe(Guid.Parse("120b15bf-0943-46cd-8906-c0624cb39a4c"));
             });
         }
 
@@ -43,7 +43,7 @@ namespace ProductManagement.Carts
             {
                 // Act
                 var result = await _cartRepository.GetCountAsync(
-                    userId: Guid.Parse("e08b1d6b-2610-42af-8614-fdc618a7c463")
+                    userId: Guid.Parse("b8c7509f-7a95-4ab5-a0be-00c36118da3a")
                 );
 
                 // Assert

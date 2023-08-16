@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,23 +15,25 @@ public class CartModel : PageModel
 {
     private readonly ICurrentUser _currentUser;
     private readonly ICartsAppService _cartsAppService;
+    private readonly ICartRepository _cartRepository;
     private readonly IBooksAppService _booksAppService;
     private readonly IAuthorsAppService _authorsAppService; 
 
-    public CartModel(ICurrentUser currentUser, ICartsAppService cartsAppService, IBooksAppService booksAppService, IAuthorsAppService authorsAppService) // Add IAuthorsAppService parameter
+    public CartModel(ICurrentUser currentUser, ICartsAppService cartsAppService, IBooksAppService booksAppService, IAuthorsAppService authorsAppService, ICartRepository cartRepository) 
     {
         _currentUser = currentUser;
         _cartsAppService = cartsAppService;
         _booksAppService = booksAppService;
         _authorsAppService = authorsAppService;
+        _cartRepository = cartRepository;
     }
 
-    public List<CartDto> CartItems { get; set; }
+    public List<Cart> CartItems { get; set; }
    
     public List<string> AuthorNames { get; set; }
     public List<float> Prices { get; set; }
     public List<Guid> Id { get; set; }
-    public Dictionary<Guid, CartDto> UniqueCartItems { get; set; }
+    public Dictionary<Guid, Cart> UniqueCartItems { get; set; }
     public Dictionary<Guid, string> BookTitles { get; set; }
     public Dictionary<Guid,float> Price { get; set; }
 
@@ -38,11 +41,12 @@ public class CartModel : PageModel
     {
         Guid currentUserId = _currentUser.Id ?? Guid.Empty;
 
-        // Retrieve cart items for the current user from the service
-        CartItems = await _cartsAppService.GetByUserId(currentUserId);
+       
+        CartItems = await _cartRepository.GetListAsync();
+        CartItems = CartItems.Where(cartItem => cartItem.UserId == currentUserId).ToList();
 
         // Populate unique cart items in the dictionary
-        UniqueCartItems = new Dictionary<Guid, CartDto>();
+        UniqueCartItems = new Dictionary<Guid, Cart>();
         foreach (var item in CartItems)
         {
             Guid bookguid = item.BookId;
@@ -92,14 +96,19 @@ public class CartModel : PageModel
         // Get the cart item from the service
         var cartItem = await _cartsAppService.GetAsync(Id);
 
-        // Update the quantity
-        CartUpdateDto cartUpdateDto = new()
+        // Calculate the new TotalPrice based on Quantity and UnitPrice
+        decimal newTotalPrice = Quantity * cartItem.UnitPrice;
+
+        // Update the quantity and TotalPrice in the cartUpdateDto
+        CartUpdateDto cartUpdateDto = new CartUpdateDto
         {
-            BookId = Bookid,
-            Quantity = Quantity,
+            BookId = cartItem.BookId,
+            Quantity = Quantity,  // Assuming Quantity is the new desired quantity
             ConcurrencyStamp = cartItem.ConcurrencyStamp,
             DateAdded = cartItem.DateAdded,
-            UserId = cartItem.UserId
+            UserId = cartItem.UserId,
+            UnitPrice = cartItem.UnitPrice,
+            TotalPrice = newTotalPrice  // Set the new calculated TotalPrice
         };
 
         // Update the cart item in the service

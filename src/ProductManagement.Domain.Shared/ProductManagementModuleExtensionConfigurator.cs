@@ -67,5 +67,43 @@ public static class ProductManagementModuleExtensionConfigurator
          * See the documentation for more:
          * https://docs.abp.io/en/abp/latest/Module-Entity-Extensions
          */
+        OneTimeRunner.Run(() =>
+        {
+            ObjectExtensionManager.Instance.Modules()
+                .ConfigurePayment(payment =>
+                {
+                    payment.ConfigurePlan(plan => // extend the Plan entity
+                    {
+                        plan.AddOrUpdateProperty<string>( //property type: string
+                          "PlanDescription", //property name
+                          property => {
+                              //validation rules
+                              property.Attributes.Add(new RequiredAttribute()); //adds required attribute to the defined property
+
+                              //...other configurations for this property
+                          }
+                        );
+                    });
+
+                    payment.ConfigureGatewayPlan(gatewayPlan => // extend the GatewayPlan entity
+                    {
+                        gatewayPlan.AddOrUpdateProperty<string>( //property type: string
+                          "GatewayPlanDescription", //property name
+                          property => {
+                              //validation rules
+                              property.Attributes.Add(new RequiredAttribute()); //adds required attribute to the defined property
+                              property.Attributes.Add(
+                            new StringLengthAttribute(500)
+                              {
+                                  MinimumLength = 10
+                              }
+                          );
+
+                              //...other configurations for this property
+                          }
+                        );
+                    });
+                });
+        });
     }
 }

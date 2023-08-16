@@ -13,7 +13,6 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using ProductManagement.Permissions;
 using ProductManagement.Carts;
-using Volo.Abp.ObjectMapping;
 
 namespace ProductManagement.Carts
 {
@@ -35,8 +34,8 @@ namespace ProductManagement.Carts
 
         public virtual async Task<PagedResultDto<CartWithNavigationPropertiesDto>> GetListAsync(GetCartsInput input)
         {
-            var totalCount = await _cartRepository.GetCountAsync(input.FilterText, input.UserId, input.QuantityMin, input.QuantityMax, input.DateAddedMin, input.DateAddedMax, input.BookId);
-            var items = await _cartRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.UserId, input.QuantityMin, input.QuantityMax, input.DateAddedMin, input.DateAddedMax, input.BookId, input.Sorting, input.MaxResultCount, input.SkipCount);
+            var totalCount = await _cartRepository.GetCountAsync(input.FilterText, input.UserId, input.QuantityMin, input.QuantityMax, input.DateAddedMin, input.DateAddedMax, input.UnitPriceMin, input.UnitPriceMax, input.TotalPriceMin, input.TotalPriceMax, input.LastModifiedMin, input.LastModifiedMax, input.BookId);
+            var items = await _cartRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.UserId, input.QuantityMin, input.QuantityMax, input.DateAddedMin, input.DateAddedMax, input.UnitPriceMin, input.UnitPriceMax, input.TotalPriceMin, input.TotalPriceMax, input.LastModifiedMin, input.LastModifiedMax, input.BookId, input.Sorting, input.MaxResultCount, input.SkipCount);
 
             return new PagedResultDto<CartWithNavigationPropertiesDto>
             {
@@ -81,9 +80,13 @@ namespace ProductManagement.Carts
         [Authorize(ProductManagementPermissions.Carts.Create)]
         public virtual async Task<CartDto> CreateAsync(CartCreateDto input)
         {
+            if (input.BookId == default)
+            {
+                throw new UserFriendlyException(L["The {0} field is required.", L["Book"]]);
+            }
 
             var cart = await _cartManager.CreateAsync(
-            input.BookId, input.UserId, input.Quantity, input.DateAdded
+            input.BookId, input.UserId, input.Quantity, input.DateAdded, input.UnitPrice, input.TotalPrice, input.LastModified
             );
 
             return ObjectMapper.Map<Cart, CartDto>(cart);
@@ -92,22 +95,17 @@ namespace ProductManagement.Carts
         [Authorize(ProductManagementPermissions.Carts.Edit)]
         public virtual async Task<CartDto> UpdateAsync(Guid id, CartUpdateDto input)
         {
+            if (input.BookId == default)
+            {
+                throw new UserFriendlyException(L["The {0} field is required.", L["Book"]]);
+            }
 
             var cart = await _cartManager.UpdateAsync(
             id,
-            input.BookId, input.UserId, input.Quantity, input.DateAdded, input.ConcurrencyStamp
+            input.BookId, input.UserId, input.Quantity, input.DateAdded, input.UnitPrice, input.TotalPrice, input.LastModified, input.ConcurrencyStamp
             );
 
             return ObjectMapper.Map<Cart, CartDto>(cart);
-        }
-        [Authorize(ProductManagementPermissions.Carts.Default)]
-        public virtual async Task<List<CartDto>> GetByUserId(Guid? userid)
-        {
-          var query = (await _cartRepository.GetQueryableAsync())
-                .WhereIf(userid != null,
-                                   x => x.UserId == userid);
-            var cart =  query.ToList();
-            return ObjectMapper.Map<List<Cart>,List<CartDto>>(cart);
         }
     }
 }

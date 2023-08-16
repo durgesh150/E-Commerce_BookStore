@@ -17,7 +17,8 @@ else
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Price</th>
+                    <th>UnitPrice</th>
+                    <th>TotalPrice</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -27,6 +28,7 @@ else
                     <tr>
                         <td>@Model.BookTitles[uniqueCartItem.BookId]</td>
                         <td>@Model.Price[uniqueCartItem.BookId]</td>
+                        <td>@uniqueCartItem.TotalPrice</td>
                         <td>
 
                             <div class="d-flex align-items-center">
@@ -61,7 +63,7 @@ else
         </table>
     </div>
     <div class="text-right mt-3">
-        <a asp-page="/Address" class="btn btn-warning text-white">Checkout</a>
+        <a asp-page="/Payments/Index" class="btn btn-warning text-white">Checkout</a>
     </div>
 
 }

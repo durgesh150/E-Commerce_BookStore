@@ -1,6 +1,5 @@
 using ProductManagement.Shared;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -22,6 +21,5 @@ namespace ProductManagement.Carts
         Task<CartDto> CreateAsync(CartCreateDto input);
 
         Task<CartDto> UpdateAsync(Guid id, CartUpdateDto input);
-        Task<List<CartDto>> GetByUserId(Guid? userid);
     }
 }

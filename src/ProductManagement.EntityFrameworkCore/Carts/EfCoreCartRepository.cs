@@ -39,6 +39,12 @@ namespace ProductManagement.Carts
             int? quantityMax = null,
             DateTime? dateAddedMin = null,
             DateTime? dateAddedMax = null,
+            decimal? unitPriceMin = null,
+            decimal? unitPriceMax = null,
+            decimal? totalPriceMin = null,
+            decimal? totalPriceMax = null,
+            DateTime? lastModifiedMin = null,
+            DateTime? lastModifiedMax = null,
             Guid? bookId = null,
             string sorting = null,
             int maxResultCount = int.MaxValue,
@@ -46,7 +52,7 @@ namespace ProductManagement.Carts
             CancellationToken cancellationToken = default)
         {
             var query = await GetQueryForNavigationPropertiesAsync();
-            query = ApplyFilter(query, filterText, userId, quantityMin, quantityMax, dateAddedMin, dateAddedMax, bookId);
+            query = ApplyFilter(query, filterText, userId, quantityMin, quantityMax, dateAddedMin, dateAddedMax, unitPriceMin, unitPriceMax, totalPriceMin, totalPriceMax, lastModifiedMin, lastModifiedMax, bookId);
             query = query.OrderBy(string.IsNullOrWhiteSpace(sorting) ? CartConsts.GetDefaultSorting(true) : sorting);
             return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
         }
@@ -71,6 +77,12 @@ namespace ProductManagement.Carts
             int? quantityMax = null,
             DateTime? dateAddedMin = null,
             DateTime? dateAddedMax = null,
+            decimal? unitPriceMin = null,
+            decimal? unitPriceMax = null,
+            decimal? totalPriceMin = null,
+            decimal? totalPriceMax = null,
+            DateTime? lastModifiedMin = null,
+            DateTime? lastModifiedMax = null,
             Guid? bookId = null)
         {
             return query
@@ -80,6 +92,12 @@ namespace ProductManagement.Carts
                     .WhereIf(quantityMax.HasValue, e => e.Cart.Quantity <= quantityMax.Value)
                     .WhereIf(dateAddedMin.HasValue, e => e.Cart.DateAdded >= dateAddedMin.Value)
                     .WhereIf(dateAddedMax.HasValue, e => e.Cart.DateAdded <= dateAddedMax.Value)
+                    .WhereIf(unitPriceMin.HasValue, e => e.Cart.UnitPrice >= unitPriceMin.Value)
+                    .WhereIf(unitPriceMax.HasValue, e => e.Cart.UnitPrice <= unitPriceMax.Value)
+                    .WhereIf(totalPriceMin.HasValue, e => e.Cart.TotalPrice >= totalPriceMin.Value)
+                    .WhereIf(totalPriceMax.HasValue, e => e.Cart.TotalPrice <= totalPriceMax.Value)
+                    .WhereIf(lastModifiedMin.HasValue, e => e.Cart.LastModified >= lastModifiedMin.Value)
+                    .WhereIf(lastModifiedMax.HasValue, e => e.Cart.LastModified <= lastModifiedMax.Value)
                     .WhereIf(bookId != null && bookId != Guid.Empty, e => e.Book != null && e.Book.Id == bookId);
         }
 
@@ -90,12 +108,18 @@ namespace ProductManagement.Carts
             int? quantityMax = null,
             DateTime? dateAddedMin = null,
             DateTime? dateAddedMax = null,
+            decimal? unitPriceMin = null,
+            decimal? unitPriceMax = null,
+            decimal? totalPriceMin = null,
+            decimal? totalPriceMax = null,
+            DateTime? lastModifiedMin = null,
+            DateTime? lastModifiedMax = null,
             string sorting = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             CancellationToken cancellationToken = default)
         {
-            var query = ApplyFilter((await GetQueryableAsync()), filterText, userId, quantityMin, quantityMax, dateAddedMin, dateAddedMax);
+            var query = ApplyFilter((await GetQueryableAsync()), filterText, userId, quantityMin, quantityMax, dateAddedMin, dateAddedMax, unitPriceMin, unitPriceMax, totalPriceMin, totalPriceMax, lastModifiedMin, lastModifiedMax);
             query = query.OrderBy(string.IsNullOrWhiteSpace(sorting) ? CartConsts.GetDefaultSorting(false) : sorting);
             return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
         }
@@ -107,11 +131,17 @@ namespace ProductManagement.Carts
             int? quantityMax = null,
             DateTime? dateAddedMin = null,
             DateTime? dateAddedMax = null,
+            decimal? unitPriceMin = null,
+            decimal? unitPriceMax = null,
+            decimal? totalPriceMin = null,
+            decimal? totalPriceMax = null,
+            DateTime? lastModifiedMin = null,
+            DateTime? lastModifiedMax = null,
             Guid? bookId = null,
             CancellationToken cancellationToken = default)
         {
             var query = await GetQueryForNavigationPropertiesAsync();
-            query = ApplyFilter(query, filterText, userId, quantityMin, quantityMax, dateAddedMin, dateAddedMax, bookId);
+            query = ApplyFilter(query, filterText, userId, quantityMin, quantityMax, dateAddedMin, dateAddedMax, unitPriceMin, unitPriceMax, totalPriceMin, totalPriceMax, lastModifiedMin, lastModifiedMax, bookId);
             return await query.LongCountAsync(GetCancellationToken(cancellationToken));
         }
 
@@ -122,7 +152,13 @@ namespace ProductManagement.Carts
             int? quantityMin = null,
             int? quantityMax = null,
             DateTime? dateAddedMin = null,
-            DateTime? dateAddedMax = null)
+            DateTime? dateAddedMax = null,
+            decimal? unitPriceMin = null,
+            decimal? unitPriceMax = null,
+            decimal? totalPriceMin = null,
+            decimal? totalPriceMax = null,
+            DateTime? lastModifiedMin = null,
+            DateTime? lastModifiedMax = null)
         {
             return query
                     .WhereIf(!string.IsNullOrWhiteSpace(filterText), e => true)
@@ -130,7 +166,13 @@ namespace ProductManagement.Carts
                     .WhereIf(quantityMin.HasValue, e => e.Quantity >= quantityMin.Value)
                     .WhereIf(quantityMax.HasValue, e => e.Quantity <= quantityMax.Value)
                     .WhereIf(dateAddedMin.HasValue, e => e.DateAdded >= dateAddedMin.Value)
-                    .WhereIf(dateAddedMax.HasValue, e => e.DateAdded <= dateAddedMax.Value);
+                    .WhereIf(dateAddedMax.HasValue, e => e.DateAdded <= dateAddedMax.Value)
+                    .WhereIf(unitPriceMin.HasValue, e => e.UnitPrice >= unitPriceMin.Value)
+                    .WhereIf(unitPriceMax.HasValue, e => e.UnitPrice <= unitPriceMax.Value)
+                    .WhereIf(totalPriceMin.HasValue, e => e.TotalPrice >= totalPriceMin.Value)
+                    .WhereIf(totalPriceMax.HasValue, e => e.TotalPrice <= totalPriceMax.Value)
+                    .WhereIf(lastModifiedMin.HasValue, e => e.LastModified >= lastModifiedMin.Value)
+                    .WhereIf(lastModifiedMax.HasValue, e => e.LastModified <= lastModifiedMax.Value);
         }
     }
 }

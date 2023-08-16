@@ -33,20 +33,26 @@ namespace ProductManagement.Carts
 
             await _cartRepository.InsertAsync(new Cart
             (
-                id: Guid.Parse("c8e464fe-9290-4138-b7dc-5ab17c28e42e"),
-                userId: Guid.Parse("58263738-e001-4d79-80af-775b907da915"),
-                quantity: 413556234,
-                dateAdded: new DateTime(2014, 4, 5),
-                bookId: null
+                id: Guid.Parse("120b15bf-0943-46cd-8906-c0624cb39a4c"),
+                userId: Guid.Parse("3242797a-2978-4259-a65b-a99b0669b19f"),
+                quantity: 1816891000,
+                dateAdded: new DateTime(2004, 8, 4),
+                unitPrice: 1314264770,
+                totalPrice: 1772079697,
+                lastModified: new DateTime(2015, 10, 19),
+                bookId: Guid.Parse("579dc4c9-914b-4e9f-8055-6ad977f48814")
             ));
 
             await _cartRepository.InsertAsync(new Cart
             (
-                id: Guid.Parse("fa496b8d-9b1b-4a52-ab9f-4699663b7127"),
-                userId: Guid.Parse("e08b1d6b-2610-42af-8614-fdc618a7c463"),
-                quantity: 96738614,
-                dateAdded: new DateTime(2005, 2, 9),
-                bookId: null
+                id: Guid.Parse("9db0d161-312e-4c71-a051-479d14d30c13"),
+                userId: Guid.Parse("b8c7509f-7a95-4ab5-a0be-00c36118da3a"),
+                quantity: 2082293026,
+                dateAdded: new DateTime(2011, 4, 1),
+                unitPrice: 1791550101,
+                totalPrice: 1612670648,
+                lastModified: new DateTime(2005, 1, 7),
+                bookId: Guid.Parse("579dc4c9-914b-4e9f-8055-6ad977f48814")
             ));
 
             await _unitOfWorkManager.Current.SaveChangesAsync();

@@ -22,13 +22,16 @@ namespace ProductManagement.Web.Pages
         private readonly NavigationManager _navigationManager;
         private readonly ICurrentUser _currentUser;
         private readonly ICartsAppService _cartsAppService;
+        private readonly ICartRepository _cartRepository;
 
-        public IndexModel(IBooksAppService booksAppService, NavigationManager navigationManager, ICurrentUser currentUser, ICartsAppService cartsAppService)
+
+        public IndexModel(IBooksAppService booksAppService, NavigationManager navigationManager, ICurrentUser currentUser, ICartsAppService cartsAppService ,ICartRepository cartRepository)
         {
             _booksAppService = booksAppService;
             _navigationManager = navigationManager;
             _currentUser = currentUser;
             _cartsAppService = cartsAppService;
+            _cartRepository = cartRepository;
 
             Books = new List<BookViewModel>(); 
         }
@@ -66,7 +69,7 @@ namespace ProductManagement.Web.Pages
 
             // Fetch cart quantities for each book category and update the CartQuantity property within the Books list
             Guid currentUserId = _currentUser.Id ?? Guid.Empty;
-            var cartItems = await _cartsAppService.GetByUserId(currentUserId);
+            var cartItems = await _cartRepository.GetListAsync();
             foreach (var cartItem in cartItems)
             {
                 Guid bookGuid = cartItem.BookId;
@@ -81,6 +84,8 @@ namespace ProductManagement.Web.Pages
         public async Task<IActionResult> OnPostAddToCart(Guid Id)
         {
             var currentUserId = _currentUser.Id ?? Guid.Empty;
+            var bookprice = _booksAppService.GetAsync(Id);
+            
             var book = Books.FirstOrDefault(b => b.Id == Id);
             if (book != null)
             {
@@ -93,8 +98,19 @@ namespace ProductManagement.Web.Pages
                 UserId = currentUserId,
                 Quantity = 1, // You can set the initial quantity here if needed
                 DateAdded = DateTime.UtcNow,
-                BookId = Id
+                BookId = Id,
+                UnitPrice = (decimal)bookprice.Result.Price
             };
+            if (book != null)
+            {
+
+                cartCreateDto.TotalPrice = book.CartQuantity * cartCreateDto.UnitPrice;
+            }
+            else
+            {
+                cartCreateDto.TotalPrice = cartCreateDto.UnitPrice;
+
+            }
 
             // Call the cart service method to add the item to the cart
             await _cartsAppService.CreateAsync(cartCreateDto);
@@ -111,7 +127,7 @@ namespace ProductManagement.Web.Pages
             var currentUserId = _currentUser.Id ?? Guid.Empty;
 
             // Find the cart item for the specified book and user
-            var cartItem = (await _cartsAppService.GetByUserId(currentUserId))
+            var cartItem = (await _cartRepository.GetListAsync())
                 .FirstOrDefault(item => item.BookId == bookId);
 
             if (cartItem != null)
@@ -135,7 +151,7 @@ namespace ProductManagement.Web.Pages
             var currentUserId = _currentUser.Id ?? Guid.Empty;
 
             // Find the cart item for the specified book and user
-            var cartItem = (await _cartsAppService.GetByUserId(currentUserId))
+            var cartItem = (await _cartRepository.GetListAsync())
                 .FirstOrDefault(item => item.BookId == bookId);
 
             if (cartItem != null)

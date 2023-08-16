@@ -1,0 +1,35 @@
+﻿@page
+@model ProductManagement.Web.Pages.Payments.SucessModel
+@{
+    ViewData["Title"] = "Payment Success";
+}
+
+<div class="container mt-4">
+    <h2>Payment Successful!</h2>
+    <p>Thank you for your purchase. Your payment has been successfully processed.</p>
+    <p>Your order details:</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PurchasedItems)
+            {
+                <tr>
+                    <td>@item.ItemName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Total Amount: @Model.TotalAmount</p>
+
+    <a class="btn btn-primary" asp-page="Invoice" asp-route-totalAmount="@Model.TotalAmount">Download Invoice</a>
+</div>
